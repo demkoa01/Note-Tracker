@@ -11,7 +11,7 @@ router.get('/notes', (req,res) => {
 });
 
 // return index.html
-router.get('/', (req, res) => {
+router.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
@@ -39,6 +39,23 @@ router.post('/api/notes', (req,res) => {
             if (err) throw err;
         }));
         res.json(newNote);
+    }));
+});
+
+// delete notes 
+router.delete('/api/notes:id', (req,res) => {
+    const noteId = req.body.id;
+    fs.readFile(path.join(__dirname, "./db/db.json", (err, data) => {
+        if (err) throw err;
+        const notes = JSON.parse(data);
+        const notesArray = notes.filter(item => {
+            return item.id !== noteId
+        });
+        fs.writeFile('./db/db.json', JSON.stringify(notesArray), (err, data) => {
+        console.log("deleted");
+        if (err) throw err;
+        res.json(notesArray);
+        });
     }));
 });
 

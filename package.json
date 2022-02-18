@@ -11,5 +11,13 @@
     "express": "^4.17.3"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demkoa01/Note-Tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/demkoa01/Note-Tracker/issues"
+  },
+  "homepage": "https://github.com/demkoa01/Note-Tracker#readme"
 }

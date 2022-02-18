@@ -4,16 +4,19 @@ const app = express();
 const fs = require('fs)');
 const path = require('path');
 
+// require routes
+const routes = require('./routes/routes');
+
 // set other variables
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // parse data
 app.use(express, urlencoded({ extended:true }));
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static('public'));
 
 // require routes.js file
-require('./routes/routes')(app);
+app.use('/', routes);
 
 // make server listen
 app.listen(PORT, () => {

@@ -8,7 +8,7 @@ const notesData = require('../db/db.json');
 module.exports = function(app) {
 // API routes
 
-    function writeNotes(notes) {
+    function writeToDB(notes) {
         // convert new JSON arrary to string
         notes = JSON.stringify(notes)
         console.log(notes);

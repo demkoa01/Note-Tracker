@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const saveData = require('../db/saveData');
 
 // get notes
@@ -25,6 +24,5 @@ router.delete('/notes/:id', function (req, res) {
         .then(() => res.json({ ok: true }))
         .catch(err => res.status(500).json(err));
 });
-
 
 module.exports = router;

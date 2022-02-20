@@ -1,7 +1,7 @@
 // require dependencies
 // const router = require('express').Router();
 const fs = require('fs');
-const path = require('path');
+// const path = require('path');
 const notesData = require('../db/db.json');
 // const uuid = require('uuid');
 
@@ -14,12 +14,14 @@ module.exports = function(app) {
         console.log(notes);
         // write back to db.json
         fs.writeFile('./db/db.json', notes, function(err){
-            if (err) throw err;
+            if (err){
+                return console.log(err);
+            }
         });
     }
 
     // get notes read from db.json file and return saved notes as JSON
-    app.get('/api/notes', (req, res) => {
+    app.get('/api/notes', function(req, res){
         res.json(notesData);
         // fs.readFile(path.join(__dirname, "./db/db.json"), (err, data) => {
         //     if (err) throw err;
@@ -29,7 +31,7 @@ module.exports = function(app) {
     });
 
     // post -> receive new note and add to db.json
-    app.post('/api/notes', (req,res) => {
+    app.post('/api/notes', function(req,res){
         // Set unique id to entry
         if (notesData.length == 0){
             req.body.id = "0";
@@ -65,7 +67,7 @@ module.exports = function(app) {
     });
 
     // delete notes 
-    app.delete('/api/notes:id', (req,res) => {
+    app.delete('/api/notes:id', function(req,res){
         // Obtains id and converts to a string
         let id = req.params.id.toString();
         console.log(id);

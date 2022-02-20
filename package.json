@@ -12,7 +12,9 @@
     "connect-timeout": "^1.9.0",
     "express": "^4.17.3",
     "inquirer": "^8.2.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "v1": "^1.0.0",
+    "v4": "^0.0.1"
   },
   "keywords": [],
   "description": "",

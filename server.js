@@ -2,10 +2,10 @@
 const { urlencoded } = require('express');
 const express = require('express');
 const app = express();
-// const fs = require('fs');
-const path = require('path');
-// const uuid = require('uuid');
-// const database = require("./db/db.json");
+
+// require routes
+const apiRoutes = require('./routes/routes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 // set other variables
 const PORT = process.env.PORT || 3000;
@@ -14,15 +14,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express, urlencoded({ extended:true }));
 app.use(express.json());
 
-// require routes.js file
-// app.use('/', routes);
-
-// require routes
-require('./routes/routes')(app);
-require('./routes/htmlRoutes')(app);
-
 // make files in public folder available
 app.use(express.static('public'));
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 // make server listen
 app.listen(PORT, () => {

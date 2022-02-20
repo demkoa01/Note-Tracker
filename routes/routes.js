@@ -1,104 +1,30 @@
-// require dependencies
-// const router = require('express').Router();
-const fs = require('fs');
-// const path = require('path');
-const notesData = require('../db/db.json');
-// const uuid = require('uuid');
+const router = require('express').Router();
 
-module.exports = function(app) {
-// API routes
+const saveData = require('../db/saveData');
 
-    function writeToDB(notes) {
-        // convert new JSON arrary to string
-        notes = JSON.stringify(notes)
-        console.log(notes);
-        // write back to db.json
-        fs.writeFile('./db/db.json', notes, function(err){
-            if (err){
-                return console.log(err);
-            }
-        });
-    }
+// get notes
+router.get('/notes', function (req, res) {
+    saveData
+        .retrieveNotes()
+        .then(notes => res.json(notes))
+        .catch(err => res.status(500).json(err));
+});
 
-    // get notes read from db.json file and return saved notes as JSON
-    app.get('/api/notes', function(req, res){
-        res.json(notesData);
-        // fs.readFile(path.join(__dirname, "./db/db.json"), (err, data) => {
-        //     if (err) throw err;
-        //     const notes = JSON.parse(data);
-        //     res.json(notes);
-        // });
-    });
+// make new notes
+router.post('/notes', (req, res) => {
+    saveData
+        .addNote(req.body)
+        .then((note) => res.json(note))
+        .catch(err => res.status(500).json(err));
+});
 
-    // post -> receive new note and add to db.json
-    app.post('/api/notes', function(req,res){
-        // Set unique id to entry
-        if (notesData.length == 0){
-            req.body.id = "0";
-        } else{
-            req.body.id = JSON.stringify(JSON.parse(notesData[notesData.length - 1].id) + 1);
-        }
-        
-        console.log("req.body.id: " + req.body.id);
+// delete notes
+router.delete('/notes/:id', function (req, res) {
+    saveData
+        .deleteNote(req.params.id)
+        .then(() => res.json({ ok: true }))
+        .catch(err => res.status(500).json(err));
+});
 
-        // Pushes Body to JSON Array
-        notesData.push(req.body);
 
-        // Write notes data to database
-        writeToDB(notesData);
-        console.log(notesData);
-
-        // returns new note in JSON format.
-        res.json(req.body);
-
-        // fs.read(path.join(__dirname, "./db/db.json", (err, data) => {
-        //     if (err) throw err;
-        //     const notes = JSON.parse(data);
-        //     const newNote = req.body;
-        //     newNote.id = uuid.v4();
-        //     notes.push(newNote);
-
-        //     const createNote = JSON.stringify(notes);
-        //     fs.writeFile(path.join(__dirname, "./db/db.json", (err, data) => {
-        //         if (err) throw err;
-        //     }));
-        //     res.json(newNote);
-        // }));
-    });
-
-    // delete notes 
-    app.delete('/api/notes:id', function(req,res){
-        // Obtains id and converts to a string
-        let id = req.params.id.toString();
-        console.log(id);
-
-        // Goes through notesArray searching for matching ID
-        for (i=0; i < notesData.length; i++){
-           
-            if (notesData[i].id == id){
-                console.log("match!");
-                // responds with deleted note
-                res.send(notesData[i]);
-
-                // Removes the deleted note
-                notesData.splice(i,1);
-                break;
-            }
-        }
-        writeToDB(notesData);
-        // const noteId = req.body.id;
-        // fs.readFile(path.join(__dirname, "./db/db.json", (err, data) => {
-        //     if (err) throw err;
-        //     const notes = JSON.parse(data);
-        //     const notesArray = notes.filter(item => {
-        //         return item.id !== noteId
-        //     });
-        //     fs.writeFile('./db/db.json', JSON.stringify(notesArray), (err, data) => {
-        //     console.log("deleted");
-        //     if (err) throw err;
-        //     res.json(notesArray);
-        //     });
-        // }));
-    });
-
-}
+module.exports = router;

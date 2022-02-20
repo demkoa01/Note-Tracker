@@ -11,3 +11,10 @@
 ## URLs
 ### Github: https://github.com/demkoa01/Note-Tracker
 ### Heroku: https://shielded-savannah-92374.herokuapp.com/
+
+## Screenshots
+### Startup Page
+![get_started](https://user-images.githubusercontent.com/93881224/154827016-bb32dc9a-df0c-4e09-9bce-02ee21a23f04.JPG)
+
+### Notes Page
+![notes](https://user-images.githubusercontent.com/93881224/154827020-e051a7c4-a64c-4b0d-a278-b428c5f709f3.JPG)
